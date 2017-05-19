@@ -16,7 +16,9 @@ function toGeojson(x, y) {
 }
 
 
-const coordinates = []
+var file = 'data.json'
+var fd = fs.openSync(file, 'w')
+fs.writeSync(fd, '[\n')
  
 fs.createReadStream('input.csv')
   .pipe(csv({separator: ';'}))
@@ -25,16 +27,15 @@ fs.createReadStream('input.csv')
     const y = parseInt(data.y_mp_100m)
     const count = parseInt(data.Einwohner)
     if (count > 0) {
-      coordinates.push({
+      const objStr = JSON.stringify({
         count,
 	location: toGeojson(x, y)
       });
+      fs.writeSync(fd, objStr + ',\n')
     }
   })
   .on('end', function () {
-    var file = 'data.json'
-    jsonfile.writeFile(file, coordinates, function (err) {
-      console.error(err)
-    })
+    fs.writeSync(fd, 'undefined]')
+    fs.closeSync(fd)
   })
 
