@@ -1,0 +1,14 @@
+{
+  "name": "zensus2geojson",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thomas Nordquist",
+  "dependencies": {
+    "csv-parser": "^1.11.0",
+    "jsonfile": "^3.0.0"
+  }
+}
