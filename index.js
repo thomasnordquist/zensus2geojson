@@ -11,7 +11,7 @@ const gpsDef = '+proj=longlat +ellps=GRS80 +no_defs'
 const projection = proj4(zensusDef, gpsDef)
 
 function toGeojson(x, y) {
-  const coordinates = projection.forward([x, y]).reverse()
+  const coordinates = projection.forward([x, y])
   return {type: 'Point', coordinates}
 }
 
