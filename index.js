@@ -19,7 +19,9 @@ function toGeojson(x, y) {
 var file = 'data.json'
 var fd = fs.openSync(file, 'w')
 fs.writeSync(fd, '[\n')
- 
+
+var dataset = 0
+
 fs.createReadStream('Zensus_Bevoelkerung_100m-Gitter.csv')
   .pipe(csv({separator: ';'}))
   .on('data', function (data) {
@@ -31,11 +33,19 @@ fs.createReadStream('Zensus_Bevoelkerung_100m-Gitter.csv')
         count,
 	location: toGeojson(x, y)
       });
-      fs.writeSync(fd, objStr + ',\n')
+
+      if(dataset == 0) {
+	fs.writeSync(fd, objStr)
+      } else {
+        fs.writeSync(fd, ',\n' + objStr + '\n')
+      }
+
+      dataset = dataset + 1
+      if (dataset % 10000 === 0) console.log("Wrote " +  dataset + " datasets")
     }
   })
   .on('end', function () {
-    fs.writeSync(fd, 'undefined]')
+    fs.writeSync(fd, '\n]')
     fs.closeSync(fd)
   })
 
