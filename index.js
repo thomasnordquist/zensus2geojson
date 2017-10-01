@@ -20,7 +20,7 @@ var file = 'data.json'
 var fd = fs.openSync(file, 'w')
 fs.writeSync(fd, '[\n')
  
-fs.createReadStream('input.csv')
+fs.createReadStream('Zensus_Bevoelkerung_100m-Gitter.csv')
   .pipe(csv({separator: ';'}))
   .on('data', function (data) {
     const x = parseInt(data.x_mp_100m)
